@@ -1,0 +1,25 @@
+# Weekday digest ~8:00 Toronto (Eastern). GitHub cron is UTC-only:
+# 12:00 UTC ≈ 8:00 EDT (Mar–Nov)  |  13:00 UTC ≈ 8:00 EST (Nov–Mar)
+# Change cron to '0 13 * * 1-5' if winter 8am is more important than summer.
+name: Morning markets digest email
+
+on:
+  schedule:
+    - cron: "0 12 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  send-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Send digest
+        run: node scripts/morning-digest.mjs
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
+          DIGEST_TO: ${{ secrets.DIGEST_TO }}
+          RSS2JSON_API_KEY: ${{ secrets.RSS2JSON_API_KEY }}
