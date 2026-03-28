@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#8b2942" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아침신문" />
+  <meta name="description" content="북미·캐나다 주택·모기지·감정·증시 뉴스. 어제와 오늘 소식 위주, 한글 번역 가능. 아이폰 홈 화면에 추가해 앱처럼 쓸 수 있어요." />
+  <title>세계 증시 아침 신문 — 캐나다 부동산·모기지 포함</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="paper-body">
+  <header class="masthead">
+    <div class="masthead-inner">
+      <p class="masthead-kicker">아침 8시 무렵 읽기 좋게 · 토론토 날짜 기준</p>
+      <h1 class="masthead-title">세계 증시 아침 신문</h1>
+      <p class="masthead-deck">북미 증시, <strong>캐나다 주택·모기지·감정 평가</strong>, 중국·아시아, 인도 소식을 모았어요. 기본은 <strong>최근 36시간</strong> 안에 올라온 글 위주예요. 제목·본문은 원문이 영어인 경우가 많아요 — <strong>한글로 번역</strong> 버튼으로 바꿔 읽을 수 있어요 (자동 번역이라 오역이 있을 수 있어요).</p>
+      <div class="masthead-meta">
+        <time id="editionDate" class="edition-date" datetime=""></time>
+        <span class="masthead-rule" aria-hidden="true"></span>
+        <span id="statusText" class="status-inline">불러오는 중…</span>
+        <time id="lastUpdated" class="last-updated" datetime=""></time>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar toolbar-stack">
+    <div class="toolbar-row">
+      <span class="toolbar-label">시간 범위</span>
+      <div class="filter-group" role="group" aria-label="시간 범위 (최신 뉴스)">
+        <button type="button" class="time-btn is-active" data-time="36">어제·오늘(36시간)</button>
+        <button type="button" class="time-btn" data-time="today">오늘만</button>
+        <button type="button" class="time-btn" data-time="week">이번 주</button>
+        <button type="button" class="time-btn" data-time="all">전체</button>
+      </div>
+    </div>
+    <div class="toolbar-row">
+      <span class="toolbar-label">면(섹션)</span>
+      <div class="filter-group" role="group" aria-label="면 선택">
+        <button type="button" class="filter-btn is-active" data-filter="all">신문 전체</button>
+        <button type="button" class="filter-btn" data-filter="na">북미 증시</button>
+        <button type="button" class="filter-btn" data-filter="ca_housing">캐나다 주택</button>
+        <button type="button" class="filter-btn" data-filter="ca_mortgage">캐나다 모기지</button>
+        <button type="button" class="filter-btn" data-filter="ca_appraisal">캐나다 감정</button>
+        <button type="button" class="filter-btn" data-filter="cn">중국·아시아</button>
+        <button type="button" class="filter-btn" data-filter="in">인도</button>
+      </div>
+    </div>
+    <div class="toolbar-row toolbar-row-actions">
+      <button type="button" class="btn-translate" id="btnTranslate">한글로 번역</button>
+      <button type="button" class="btn-refresh" id="btnRefresh" title="뉴스 다시 불러오기">↻ 새로고침</button>
+      <button type="button" class="btn-print" id="btnPrint" title="인쇄하거나 PDF로 저장">인쇄 / PDF</button>
+    </div>
+  </div>
+
+  <main class="main paper-main">
+    <div id="errorBox" class="error-box hidden" role="alert"></div>
+    <div id="newsSections" class="news-sections" aria-busy="true"></div>
+    <div id="emptyState" class="empty-state hidden">
+      <p>이 조건에 맞는 기사가 없어요. 시간 범위를 넓히거나 다른 면을 골라 보세요.</p>
+    </div>
+  </main>
+
+  <aside class="email-aside">
+    <h2 class="aside-title">아이폰에서 앱처럼 쓰기</h2>
+    <p class="aside-text"><strong>Safari</strong>로 이 페이지를 연 뒤, 공유 버튼 → <strong>홈 화면에 추가</strong>를 누르면 아이콘이 생겨요. 별도 앱 스토어 앱이 없어도 되고, 서버에 글을 저장하지 않아도 돼요. (인터넷에 연결되어 있을 때 최신 글을 불러와요.)</p>
+    <h2 class="aside-title aside-title--sub">매일 아침 8시 이메일 (토론토 시간)</h2>
+    <p class="aside-text">정해진 시간에 메일을 받으려면 <strong>Resend</strong>와 <strong>GitHub Actions</strong>를 쓰는 방법이 <code>EMAIL_SETUP.md</code>에 있어요.</p>
+    <p class="aside-cmd"><code>npm run digest:dry</code> — 메일 미리보기</p>
+  </aside>
+
+  <footer class="site-footer">
+    <p><strong>투자 조언이 아니에요.</strong> 한글은 MyMemory 자동 번역이라 뜻이 어긋날 수 있어요. RSS 요약은 짧을 수 있어요. 돈과 관련된 결정은 가족·전문가와 상의하세요.</p>
+    <p class="footer-meta">뉴스 목록은 <a href="https://rss2json.com" target="_blank" rel="noopener noreferrer">rss2json</a>을 통해 불러와요. 짧은 시간에 많이 새로고침하면 API 키가 필요하다는 메시지가 뜰 수 있어요 — 그때는 rss2json 무료 가입 후 키를 넣으면 돼요.</p>
+  </footer>
+
+  <script src="translate.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
